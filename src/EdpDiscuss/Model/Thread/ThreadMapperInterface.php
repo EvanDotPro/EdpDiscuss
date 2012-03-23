@@ -25,7 +25,7 @@ interface ThreadMapperInterface
      * persist 
      * 
      * @param ThreadInterface $thread 
-     * @return bool
+     * @return ThreadInterface
      */
     public function persist(ThreadInterface $thread);
 }

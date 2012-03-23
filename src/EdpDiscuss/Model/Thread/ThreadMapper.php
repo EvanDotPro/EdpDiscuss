@@ -47,7 +47,7 @@ class ThreadMapper extends DbMapperAbstract implements ThreadMapperInterface
      * persist 
      * 
      * @param ThreadInterface $thread 
-     * @return bool
+     * @return ThreadInterface
      */
     public function persist(ThreadInterface $thread)
     {
