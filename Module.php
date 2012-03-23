@@ -30,7 +30,7 @@ class Module implements AutoloaderProvider
     public function modulesLoaded($e)
     {
         $config = $e->getConfigListener()->getMergedConfig();
-        static::$options = $config['zfcuser'];
+        static::$options = $config['edpdiscuss'];
     }
 
     /**
