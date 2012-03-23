@@ -2,11 +2,18 @@
 
 namespace EdpDiscuss;
 
-use Zend\Module\Consumer\AutoloaderProvider;
+use Zend\Module\Manager,
+    Zend\EventManager\StaticEventManager,
+    Zend\Module\Consumer\AutoloaderProvider;
 
 class Module implements AutoloaderProvider
 {
     protected static $options;
+
+    public function init(Manager $moduleManager)
+    {
+        $moduleManager->events()->attach('loadModules.post', array($this, 'modulesLoaded'));
+    }
 
     public function getAutoloaderConfig()
     {
