@@ -2,7 +2,8 @@
 
 namespace EdpDiscuss\Model\Thread;
 
-use ZfcBase\Mapper\DbMapperAbstract;
+use ZfcBase\Mapper\DbMapperAbstract,
+    EdpDiscuss\Module as EdpDiscuss;
 
 class ThreadMapper extends DbMapperAbstract implements ThreadMapperInterface
 {

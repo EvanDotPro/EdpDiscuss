@@ -2,7 +2,8 @@
 
 namespace EdpDiscuss\Model\Message;
 
-use ZfcBase\Mapper\DbMapperAbstract;
+use ZfcBase\Mapper\DbMapperAbstract,
+    EdpDiscuss\Module as EdpDiscuss;
 
 class MessageMapper extends DbMapperAbstract implements MessageMapperInterface
 {
@@ -35,7 +36,7 @@ class MessageMapper extends DbMapperAbstract implements MessageMapperInterface
      * @param int $offest 
      * @return array of EdpDiscuss\Model\Message\MessageInterface's
      */
-    public function getMessageByThread($threadId, $limit = 25, $offset = 0)
+    public function getMessagesByThread($threadId, $limit = 25, $offset = 0)
     {
         $rowset = $this->getTableGateway()->select(array($this->threadIDField => $threadId));
 

@@ -22,7 +22,7 @@ class Discuss {
 
     public function getLatestThreads($limit = 25, $offset = 0)
     {
-        return $this->threadMapper->getThreads($limit, $offset);
+        return $this->threadMapper->getLatestThreads($limit, $offset);
     }
 
     public function getMessagesByThread($thread, $limit = 25, $offset = 0)

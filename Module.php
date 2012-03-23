@@ -6,6 +6,8 @@ use Zend\Module\Consumer\AutoloaderProvider;
 
 class Module implements AutoloaderProvider
 {
+    protected static $options;
+
     public function getAutoloaderConfig()
     {
         return array(

@@ -16,6 +16,11 @@ return array(
                 'edpdiscuss_thread_tg'          => 'Zend\Db\TableGateway\TableGateway',
                 'edpdiscuss_message_tg'         => 'Zend\Db\TableGateway\TableGateway',
             ),
+            'edpdiscuss' => array(
+                'parameters' => array(
+                    'discussService' => 'EdpDiscuss\Service\Discuss'
+                )
+            ),
             'EdpDiscuss\Service\Discuss' => array(
                 'parameters' => array(
                     'threadMapper'  => 'edpdiscuss_thread_mapper',
