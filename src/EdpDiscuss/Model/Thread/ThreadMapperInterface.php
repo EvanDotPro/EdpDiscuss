@@ -13,16 +13,6 @@ interface ThreadMapperInterface
     public function getThreadById($threadId);
 
     /**
-     * getThreadMessages 
-     * 
-     * @param int $threadId 
-     * @param int $limit 
-     * @param int $offest 
-     * @return array of EdpDiscuss\Model\Message\MessageInterface's
-     */
-    public function getThreadMessages($threadId, $limit = 25, $offest = 0);
-
-    /**
      * getLatestThreads 
      * 
      * @param int $limit 
