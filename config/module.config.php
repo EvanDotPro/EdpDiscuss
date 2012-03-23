@@ -1,5 +1,9 @@
 <?php
 return array(
+    'edpdiscuss' => array(
+        'thread_model_class'    => 'EdpDiscuss\Model\Thread\Thread',
+        'message_model_class'   => 'EdpDiscuss\Model\Message\Message'
+    ),
     'di' => array(
         'instance' => array(
             'alias' => array(

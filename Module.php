@@ -24,4 +24,21 @@ class Module implements AutoloaderProvider
     {
         return include __DIR__ . '/config/module.config.php';
     }
+
+    public function modulesLoaded($e)
+    {
+        $config = $e->getConfigListener()->getMergedConfig();
+        static::$options = $config['zfcuser'];
+    }
+
+    /**
+     * @TODO: Come up with a better way of handling module settings/options
+     */
+    public static function getOption($option)
+    {
+        if (!isset(static::$options[$option])) {
+            return null;
+        }
+        return static::$options[$option];
+    }
 }
