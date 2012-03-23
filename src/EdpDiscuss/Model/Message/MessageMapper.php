@@ -41,7 +41,7 @@ class MessageMapper extends DbMapperAbstract implements MessageMapperInterface
         $rowset = $this->getTableGateway()->select(array($this->threadIDField => $threadId));
 
         $messageClass = EdpDiscuss::getOption('message_model_class');
-        $messages = $messageClass::fromArraySet($rowset);
+        $messages = $messageClass::fromArraySet($rowset->toArray());
 
         return $messages;
     }

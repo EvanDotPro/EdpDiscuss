@@ -39,7 +39,7 @@ class ThreadMapper extends DbMapperAbstract implements ThreadMapperInterface
         $rowset = $this->getTableGateway()->select();
 
         $threadClass = EdpDiscuss::getOption('thread_model_class');
-        $threads = $threadClass::fromArraySet($rowset);
+        $threads = $threadClass::fromArraySet($rowset->toArray());
 
         return $threads;
     }
