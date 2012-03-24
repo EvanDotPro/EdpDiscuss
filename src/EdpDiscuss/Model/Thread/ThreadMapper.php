@@ -2,11 +2,13 @@
 
 namespace EdpDiscuss\Model\Thread;
 
-use ZfcBase\Mapper\DbMapperAbstract;
+use ZfcBase\Mapper\DbMapperAbstract,
+    EdpDiscuss\Module as EdpDiscuss;
 
 class ThreadMapper extends DbMapperAbstract implements ThreadMapperInterface
 {
     protected $tableName = 'discuss_thread';
+    protected $threadIDField = 'thread_id';
 
     /**
      * getThreadById 
@@ -16,20 +18,13 @@ class ThreadMapper extends DbMapperAbstract implements ThreadMapperInterface
      */
     public function getThreadById($threadId)
     {
+        $rowset = $this->getTableGateway()->select(array($this->threadIDField => $threadId));
+        $row = $rowset->current();
 
-    }
+        $threadClass = EdpDiscuss::getOption('thread_model_class');
+        $thread = $threadClass::fromArray($row);
 
-    /**
-     * getThreadMessages 
-     * 
-     * @param int $threadId 
-     * @param int $limit 
-     * @param int $offest 
-     * @return array of EdpDiscuss\Model\Message\MessageInterface's
-     */
-    public function getThreadMessages($threadId, $limit = 25, $offest = 0)
-    {
-
+        return $thread;
     }
 
     /**
@@ -41,18 +36,32 @@ class ThreadMapper extends DbMapperAbstract implements ThreadMapperInterface
      */
     public function getLatestThreads($limit = 25, $offset = 0)
     {
+        $rowset = $this->getTableGateway()->select();
 
+        $threadClass = EdpDiscuss::getOption('thread_model_class');
+        $threads = $threadClass::fromArraySet($rowset->toArray());
+
+        return $threads;
     }
 
     /**
      * persist 
      * 
      * @param ThreadInterface $thread 
-     * @return bool
+     * @return ThreadInterface
      */
     public function persist(ThreadInterface $thread)
     {
+        $data = new ArrayObject($thread->toArray());
+        if ($thread->getThreadId() > 0) {
+            $this->getTableGateway()->update((array) $data, array($this->threadIDField => $thread->getThreadId()));
+        } else {
+            $this->getTableGateway()->insert((array) $data);
+            $threadId = $this->getTableGateway()->getAdapter()->getDriver()->getConnection()->getLastGeneratedId();
+            $thread->setThreadId($threadId);
+        }
 
+        return $thread;
     }
 }
 

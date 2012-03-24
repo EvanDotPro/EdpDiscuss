@@ -2,10 +2,19 @@
 
 namespace EdpDiscuss;
 
-use Zend\Module\Consumer\AutoloaderProvider;
+use Zend\Module\Manager,
+    Zend\EventManager\StaticEventManager,
+    Zend\Module\Consumer\AutoloaderProvider;
 
 class Module implements AutoloaderProvider
 {
+    protected static $options;
+
+    public function init(Manager $moduleManager)
+    {
+        $moduleManager->events()->attach('loadModules.post', array($this, 'modulesLoaded'));
+    }
+
     public function getAutoloaderConfig()
     {
         return array(
@@ -23,5 +32,22 @@ class Module implements AutoloaderProvider
     public function getConfig()
     {
         return include __DIR__ . '/config/module.config.php';
+    }
+
+    public function modulesLoaded($e)
+    {
+        $config = $e->getConfigListener()->getMergedConfig();
+        static::$options = $config['edpdiscuss'];
+    }
+
+    /**
+     * @TODO: Come up with a better way of handling module settings/options
+     */
+    public static function getOption($option)
+    {
+        if (!isset(static::$options[$option])) {
+            return null;
+        }
+        return static::$options[$option];
     }
 }
