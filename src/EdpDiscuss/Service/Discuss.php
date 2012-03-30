@@ -53,7 +53,9 @@ class Discuss {
      */
     public function createThread(ThreadInterface $thread)
     {
-        return $this->threadMapper->persist($thread);
+        $result = $this->threadMapper->persist($thread);
+        $this->events()->trigger(__FUNCTION__, $this, array('thread' => $thread));
+        return $result;
     }
 
     /**
@@ -75,7 +77,9 @@ class Discuss {
      */
     public function createMessage(MessageInterface $message)
     {
-        return $this->messageMapper->persist($message);
+        $result = $this->messageMapper->persist($message);
+        $this->events()->trigger(__FUNCTION__, $this, array('message' => $message));
+        return $result;
     }
 
     /**
