@@ -25,9 +25,29 @@ class Discuss {
         return $this->threadMapper->getLatestThreads($limit, $offset);
     }
 
-    public function getMessagesByThread($thread, $limit = 25, $offset = 0)
+    public function getMessagesByThread(ThreadInterface $thread, $limit = 25, $offset = 0)
     {
         return $this->messageMapper->getMessagesByThread($thread->getThreadId(), $limit, $offset);
+    }
+
+    public function createThread(ThreadInterface $thread)
+    {
+        return $this->threadMapper->persist($thread);
+    }
+
+    public function updateThread(ThreadInterface $thread)
+    {
+        return $this->threadMapper->persist($thread);
+    }
+
+    public function createMessage(MessageInterface $message)
+    {
+        return $this->messageMapper->persist($message);
+    }
+
+    public function updateMessage(MessageInterface $message)
+    {
+        return $this->messageMapper->persist($message);
     }
  
     /**
