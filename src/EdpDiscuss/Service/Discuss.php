@@ -20,14 +20,82 @@ class Discuss {
      */
     protected $messageMapper;
 
+    /**
+     * getLatestThreads 
+     * 
+     * @param int $limit 
+     * @param int $offset 
+     * @return array
+     */
     public function getLatestThreads($limit = 25, $offset = 0)
     {
         return $this->threadMapper->getLatestThreads($limit, $offset);
     }
 
-    public function getMessagesByThread($thread, $limit = 25, $offset = 0)
+    /**
+     * getMessagesByThread 
+     * 
+     * @param ThreadInterface $thread 
+     * @param int $limit 
+     * @param int $offset 
+     * @return array
+     */
+    public function getMessagesByThread(ThreadInterface $thread, $limit = 25, $offset = 0)
     {
         return $this->messageMapper->getMessagesByThread($thread->getThreadId(), $limit, $offset);
+    }
+
+    /**
+     * createThread 
+     * 
+     * @param ThreadInterface $thread 
+     * @return ThreadInterface
+     */
+    public function createThread(ThreadInterface $thread, MessageInterface $message)
+    {
+        $message = $this->messageMapper->persist($message);
+
+        $thread->setOriginalMessage($message);
+        $thread = $this->threadMapper->persist($thread);
+
+        $this->events()->trigger(__FUNCTION__, $this, array('thread' => $thread));
+
+        return $thread;
+    }
+
+    /**
+     * updateThread 
+     * 
+     * @param ThreadInterface $thread 
+     * @return ThreadInterface
+     */
+    public function updateThread(ThreadInterface $thread)
+    {
+        return $this->threadMapper->persist($thread);
+    }
+
+    /**
+     * createMessage 
+     * 
+     * @param MessageInterface $message 
+     * @return MessageInterface
+     */
+    public function createMessage(MessageInterface $message)
+    {
+        $message = $this->messageMapper->persist($message);
+        $this->events()->trigger(__FUNCTION__, $this, array('message' => $message));
+        return $message;
+    }
+
+    /**
+     * updateMessage 
+     * 
+     * @param MessageInterface $message 
+     * @return MessageInterface
+     */
+    public function updateMessage(MessageInterface $message)
+    {
+        return $this->messageMapper->persist($message);
     }
  
     /**

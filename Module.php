@@ -4,9 +4,10 @@ namespace EdpDiscuss;
 
 use Zend\Module\Manager,
     Zend\EventManager\StaticEventManager,
-    Zend\Module\Consumer\AutoloaderProvider;
+    Zend\Module\Consumer\AutoloaderProvider,
+    ZfcBase\EventManager\EventProvider;
 
-class Module implements AutoloaderProvider
+class Module extends EventProvider implements AutoloaderProvider
 {
     protected static $options;
 
