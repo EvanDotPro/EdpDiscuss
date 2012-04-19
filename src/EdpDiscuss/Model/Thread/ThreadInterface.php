@@ -35,6 +35,20 @@ interface ThreadInterface
     public function setSubject($subject);
 
     /**
+     * Get slug.
+     *
+     * @return slug
+     */
+    public function getSlug();
+
+    /**
+     * Set slug.
+     *
+     * @param $slug the value to be set
+     */
+    public function setSlug($slug);
+
+    /**
      * Get originalMessage.
      *
      * @return MessageInterface

@@ -1,20 +1,22 @@
 <?php
 return array(
     'edpdiscuss' => array(
-        'thread_model_class'    => 'EdpDiscuss\Model\Thread\Thread',
-        'message_model_class'   => 'EdpDiscuss\Model\Message\Message'
+        'thread_model_class'  => 'EdpDiscuss\Model\Thread\Thread',
+        'message_model_class' => 'EdpDiscuss\Model\Message\Message',
+        'tag_model_class'     => 'EdpDiscuss\Model\Tag\Tag',
     ),
     'di' => array(
         'instance' => array(
             'alias' => array(
-                'edpdiscuss' => 'EdpDiscuss\Controller\IndexController',
-
+                'edpdiscuss'                 => 'EdpDiscuss\Controller\IndexController',
                 // Default Zend\Db
-                'edpdiscuss_zend_db_adapter'    => 'Zend\Db\Adapter\Adapter',
-                'edpdiscuss_thread_mapper'      => 'EdpDiscuss\Model\Thread\ThreadMapper',
-                'edpdiscuss_message_mapper'     => 'EdpDiscuss\Model\Message\MessageMapper',
-                'edpdiscuss_thread_tg'          => 'Zend\Db\TableGateway\TableGateway',
-                'edpdiscuss_message_tg'         => 'Zend\Db\TableGateway\TableGateway',
+                'edpdiscuss_zend_db_adapter' => 'Zend\Db\Adapter\Adapter',
+                'edpdiscuss_thread_mapper'   => 'EdpDiscuss\Model\Thread\ThreadMapper',
+                'edpdiscuss_message_mapper'  => 'EdpDiscuss\Model\Message\MessageMapper',
+                'edpdiscuss_tag_mapper'      => 'EdpDiscuss\Model\Tag\TagMapper',
+                'edpdiscuss_thread_tg'       => 'Zend\Db\TableGateway\TableGateway',
+                'edpdiscuss_message_tg'      => 'Zend\Db\TableGateway\TableGateway',
+                'edpdiscuss_tag_tg'          => 'Zend\Db\TableGateway\TableGateway',
             ),
             'edpdiscuss' => array(
                 'parameters' => array(
@@ -25,6 +27,7 @@ return array(
                 'parameters' => array(
                     'threadMapper'  => 'edpdiscuss_thread_mapper',
                     'messageMapper' => 'edpdiscuss_message_mapper',
+                    'tagMapper'     => 'edpdiscuss_tag_mapper',
                 )
             ),
             'EdpDiscuss\Model\Thread\ThreadMapper' => array(
@@ -37,6 +40,11 @@ return array(
                     'tableGateway' => 'edpdiscuss_message_tg'
                 ),
             ),
+            'EdpDiscuss\Model\Tag\TagMapper' => array(
+                'parameters' => array(
+                    'tableGateway' => 'edpdiscuss_tag_tg'
+                ),
+            ),
             'edpdiscuss_thread_tg' => array(
                 'parameters' => array(
                     'tableName' => 'discuss_thread',
@@ -46,6 +54,12 @@ return array(
             'edpdiscuss_message_tg' => array(
                 'parameters' => array(
                     'tableName' => 'discuss_message',
+                    'adapter'   => 'edpdiscuss_zend_db_adapter',
+                ),
+            ),
+            'edpdiscuss_tag_tg' => array(
+                'parameters' => array(
+                    'tableName' => 'discuss_tag',
                     'adapter'   => 'edpdiscuss_zend_db_adapter',
                 ),
             ),

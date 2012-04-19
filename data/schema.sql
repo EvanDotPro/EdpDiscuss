@@ -2,6 +2,7 @@ CREATE TABLE discuss_thread
 (
     thread_id          INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL,
     subject            VARCHAR(1000) NOT NULL,
+    slug               VARCHAR(255) NOT NULL,
     first_message_id   INTEGER DEFAULT NULL,
     latest_message_id   INTEGER DEFAULT NULL
 ) ENGINE=InnoDB;
@@ -37,3 +38,18 @@ CREATE TRIGGER latest_post_time AFTER INSERT ON discuss_message
 |
 
 DELIMITER ;
+
+CREATE TABLE discuss_tag
+(
+    tag_id INTEGER PRIMARY KEY AUTO_INCREMENT NOT NULL,
+    name   VARCHAR(255) NOT NULL,
+    slug   VARCHAR(255) NOT NULL
+) ENGINE=InnoDB;
+
+CREATE TABLE discuss_thread_tag 
+(
+    thread_id INTEGER NOT NULL,
+    tag_id    INTEGER DEFAULT NULL,
+    FOREIGN KEY (thread_id) REFERENCES discuss_thread (thread_id),
+    FOREIGN KEY (tag_id) REFERENCES discuss_tag (tag_id)
+) ENGINE=InnoDB;

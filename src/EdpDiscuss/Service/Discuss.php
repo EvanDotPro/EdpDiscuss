@@ -6,6 +6,8 @@ use EdpDiscuss\Model\Message\MessageInterface,
     EdpDiscuss\Model\Message\MessageMapperInterface,
     EdpDiscuss\Model\Thread\ThreadInterface,
     EdpDiscuss\Model\Thread\ThreadMapperInterface,
+    EdpDiscuss\Model\Tag\TagInterface,
+    EdpDiscuss\Model\Tag\TagMapperInterface,
     ZfcUser\Module as ZfcUser;
 
 class Discuss {
@@ -21,15 +23,21 @@ class Discuss {
     protected $messageMapper;
 
     /**
+     * @var TagMapperInterface
+     */
+    protected $tagMapper;
+
+    /**
      * getLatestThreads 
      * 
      * @param int $limit 
      * @param int $offset 
+     * @param int $tagId 
      * @return array
      */
-    public function getLatestThreads($limit = 25, $offset = 0)
+    public function getLatestThreads($limit = 25, $offset = 0, $tagId = false)
     {
-        return $this->threadMapper->getLatestThreads($limit, $offset);
+        return $this->threadMapper->getLatestThreads($limit, $offset, $tagId);
     }
 
     /**
@@ -97,6 +105,28 @@ class Discuss {
     {
         return $this->messageMapper->persist($message);
     }
+
+    /**
+     * getTagById 
+     * 
+     * @param int $tagId 
+     * @return TagInterface
+     */
+    public function getTagById($tagId)
+    {
+        return $this->tagMapper->getTagById($tagId);
+    }
+
+    /**
+     * getThreadById 
+     * 
+     * @param int $threadId 
+     * @return ThreadInterface
+     */
+    public function getThreadById($threadId)
+    {
+        return $this->threadMapper->getThreadById($threadId);
+    }
  
     /**
      * getThreadMapper
@@ -139,6 +169,27 @@ class Discuss {
     public function setMessageMapper($messageMapper)
     {
         $this->messageMapper = $messageMapper;
+        return $this;
+    }
+ 
+    /**
+     * Get tagMapper.
+     *
+     * @return tagMapper
+     */
+    public function getTagMapper()
+    {
+        return $this->tagMapper;
+    }
+ 
+    /**
+     * Set tagMapper.
+     *
+     * @param TagMapperInterface $tagMapper the value to be set
+     */
+    public function setTagMapper(TagMapperInterface $tagMapper)
+    {
+        $this->tagMapper = $tagMapper;
         return $this;
     }
 }

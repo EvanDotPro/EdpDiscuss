@@ -31,9 +31,9 @@ interface MessageInterface
     /**
      * Set postTime.
      *
-     * @param DateTime $postTime the value to be set
+     * @param mixed $postTime the value to be set
      */
-    public function setPostTime(DateTime $postTime);
+    public function setPostTime($postTime);
 
     /**
      * Get authorName.

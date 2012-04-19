@@ -3,6 +3,7 @@
 namespace EdpDiscuss\Model\Thread;
 
 use ZfcBase\Model\ModelAbstract,
+    Bacon\Text\Slugifier\Slugifier,
     EdpDiscuss\Model\Message\MessageInterface;
 
 class Thread extends ModelAbstract implements ThreadInterface
@@ -18,6 +19,11 @@ class Thread extends ModelAbstract implements ThreadInterface
     protected $subject;
 
     /**
+     * @var string
+     */
+    protected $slug;
+
+    /**
      * @var MessageInterface
      */
     protected $originalMessage;
@@ -26,6 +32,11 @@ class Thread extends ModelAbstract implements ThreadInterface
      * @var MessageInterface
      */
     protected $latestMessage;
+
+    /**
+     * @var Slugifier
+     */
+    protected $slugifier;
 
     /**
      * Get threadId.
@@ -66,6 +77,28 @@ class Thread extends ModelAbstract implements ThreadInterface
     public function setSubject($subject)
     {
         $this->subject = $subject;
+        $this->setSlug($this->getSlugifier()->slugify($subject));
+        return $this;
+    }
+
+    /**
+     * Get slug.
+     *
+     * @return slug
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * Set slug.
+     *
+     * @param $slug the value to be set
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
         return $this;
     }
 
@@ -108,6 +141,20 @@ class Thread extends ModelAbstract implements ThreadInterface
     public function setLatestMessage(MessageInterface $latestMessage)
     {
         $this->latestMessage = $latestMessage;
+        return $this;
+    }
+
+    public function getSlugifier()
+    {
+        if ($this->slugifier === null) {
+            $this->slugifier = new Slugifier;
+        }
+        return $this->slugifier;
+    }
+ 
+    public function setSlugifier($slugifier)
+    {
+        $this->slugifier = $slugifier;
         return $this;
     }
 }

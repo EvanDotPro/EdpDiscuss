@@ -3,7 +3,8 @@
 namespace EdpDiscuss\Model\Thread;
 
 use ZfcBase\Mapper\DbMapperAbstract,
-    EdpDiscuss\Module as EdpDiscuss;
+    EdpDiscuss\Module as EdpDiscuss,
+    Zend\Db\Sql\Select;
 
 class ThreadMapper extends DbMapperAbstract implements ThreadMapperInterface
 {
@@ -19,10 +20,15 @@ class ThreadMapper extends DbMapperAbstract implements ThreadMapperInterface
     public function getThreadById($threadId)
     {
         $rowset = $this->getTableGateway()->select(array($this->threadIDField => $threadId));
+
+        if (count($rowset) === 0) {
+            return false;
+        }
+
         $row = $rowset->current();
 
         $threadClass = EdpDiscuss::getOption('thread_model_class');
-        $thread = $threadClass::fromArray($row);
+        $thread = $threadClass::fromArray($row->getArrayCopy());
 
         return $thread;
     }
@@ -34,9 +40,22 @@ class ThreadMapper extends DbMapperAbstract implements ThreadMapperInterface
      * @param int $offset 
      * @return array of ThreadInterface's
      */
-    public function getLatestThreads($limit = 25, $offset = 0)
+    public function getLatestThreads($limit = 25, $offset = 0, $tagId = false)
     {
-        $rowset = $this->getTableGateway()->select();
+        if ($tagId) {
+            $select = new Select();
+            // @TODO: Join the original and latest messages
+            $select->from('discuss_thread')
+                   ->join('discuss_thread_tag', 'discuss_thread_tag.thread_id = discuss_thread.thread_id')
+                   ->where(array('tag_id = ?' => $tagId));
+            $rowset = $this->getTableGateway()->selectWith($select);
+        } else {
+            $rowset = $this->getTableGateway()->select();
+        }
+
+        if (count($rowset) === 0) {
+            return false;
+        }
 
         $threadClass = EdpDiscuss::getOption('thread_model_class');
         $threads = $threadClass::fromArraySet($rowset->toArray());

@@ -77,11 +77,15 @@ class Message extends ModelAbstract implements MessageInterface
     /**
      * Set postTime.
      *
-     * @param DateTime $postTime the value to be set
+     * @param mixed $postTime the value to be set
      */
-    public function setPostTime(DateTime $postTime)
+    public function setPostTime($postTime)
     {
-        $this->postTime = $postTime;
+        if ($postTime instanceof DateTime) {
+            $this->postTime = $postTime;
+        } else {
+            $this->postTime = new DateTime($postTime);
+        }
         return $this;
     }
  
