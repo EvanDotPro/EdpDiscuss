@@ -28,11 +28,11 @@ class Discuss {
     protected $tagMapper;
 
     /**
-     * getLatestThreads 
-     * 
-     * @param int $limit 
-     * @param int $offset 
-     * @param int $tagId 
+     * getLatestThreads
+     *
+     * @param int $limit
+     * @param int $offset
+     * @param int $tagId
      * @return array
      */
     public function getLatestThreads($limit = 25, $offset = 0, $tagId = false)
@@ -41,11 +41,11 @@ class Discuss {
     }
 
     /**
-     * getMessagesByThread 
-     * 
-     * @param ThreadInterface $thread 
-     * @param int $limit 
-     * @param int $offset 
+     * getMessagesByThread
+     *
+     * @param ThreadInterface $thread
+     * @param int $limit
+     * @param int $offset
      * @return array
      */
     public function getMessagesByThread(ThreadInterface $thread, $limit = 25, $offset = 0)
@@ -54,9 +54,9 @@ class Discuss {
     }
 
     /**
-     * createThread 
-     * 
-     * @param ThreadInterface $thread 
+     * createThread
+     *
+     * @param ThreadInterface $thread
      * @return ThreadInterface
      */
     public function createThread(ThreadInterface $thread, MessageInterface $message)
@@ -72,9 +72,9 @@ class Discuss {
     }
 
     /**
-     * updateThread 
-     * 
-     * @param ThreadInterface $thread 
+     * updateThread
+     *
+     * @param ThreadInterface $thread
      * @return ThreadInterface
      */
     public function updateThread(ThreadInterface $thread)
@@ -83,9 +83,9 @@ class Discuss {
     }
 
     /**
-     * createMessage 
-     * 
-     * @param MessageInterface $message 
+     * createMessage
+     *
+     * @param MessageInterface $message
      * @return MessageInterface
      */
     public function createMessage(MessageInterface $message)
@@ -96,9 +96,9 @@ class Discuss {
     }
 
     /**
-     * updateMessage 
-     * 
-     * @param MessageInterface $message 
+     * updateMessage
+     *
+     * @param MessageInterface $message
      * @return MessageInterface
      */
     public function updateMessage(MessageInterface $message)
@@ -107,9 +107,9 @@ class Discuss {
     }
 
     /**
-     * getTagById 
-     * 
-     * @param int $tagId 
+     * getTagById
+     *
+     * @param int $tagId
      * @return TagInterface
      */
     public function getTagById($tagId)
@@ -118,16 +118,16 @@ class Discuss {
     }
 
     /**
-     * getThreadById 
-     * 
-     * @param int $threadId 
+     * getThreadById
+     *
+     * @param int $threadId
      * @return ThreadInterface
      */
     public function getThreadById($threadId)
     {
         return $this->threadMapper->getThreadById($threadId);
     }
- 
+
     /**
      * getThreadMapper
      *
@@ -137,7 +137,7 @@ class Discuss {
     {
         return $this->threadMapper;
     }
- 
+
     /**
      * setThreadMapper
      *
@@ -149,7 +149,7 @@ class Discuss {
         $this->threadMapper = $threadMapper;
         return $this;
     }
- 
+
     /**
      * getMessageMapper
      *
@@ -159,7 +159,7 @@ class Discuss {
     {
         return $this->messageMapper;
     }
- 
+
     /**
      * setMessageMapper
      *
@@ -171,7 +171,7 @@ class Discuss {
         $this->messageMapper = $messageMapper;
         return $this;
     }
- 
+
     /**
      * Get tagMapper.
      *
@@ -181,7 +181,7 @@ class Discuss {
     {
         return $this->tagMapper;
     }
- 
+
     /**
      * Set tagMapper.
      *

@@ -2,28 +2,22 @@
 
 namespace EdpDiscuss\Model\Tag;
 
-use ZfcBase\Mapper\DbMapperAbstract,
-    EdpDiscuss\Module as EdpDiscuss;
+use ZfcBase\Mapper\AbstractDbMapper;
+use EdpDiscuss\Module as EdpDiscuss;
+use EdpDiscuss\Service\DbAdapterAwareInterface;
 
-class TagMapper extends DbMapperAbstract implements TagMapperInterface
+class TagMapper extends AbstractDbMapper implements TagMapperInterface, DbAdapterAwareInterface
 {
     protected $tableName = 'discuss_tag';
 
     /**
-     * getTagById 
-     * 
-     * @param int $tagId 
+     * getTagById
+     *
+     * @param int $tagId
      * @return TagInterface
      */
     public function getTagById($tagId)
     {
-        $rowset = $this->getTableGateway()->select(array('tag_id' => $tagId));
-        $row = $rowset->current();
-        if (!$row) { return false; }
-
-        $tagClass = EdpDiscuss::getOption('tag_model_class');
-        $tag = $tagClass::fromArray($row->getArrayCopy());
-
-        return $tag;
+        return $this->select(array('tag_id' => $tagId))->current();
     }
 }

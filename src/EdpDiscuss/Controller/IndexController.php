@@ -11,7 +11,7 @@ class IndexController extends ActionController
 
     /**
      * discussService
-     * 
+     *
      * @var Discuss
      */
     protected $discussService;
@@ -21,7 +21,7 @@ class IndexController extends ActionController
         var_dump($this->discussService->getLatestThreads());
         return new ViewModel();
     }
- 
+
     /**
      * Get discussService.
      *
@@ -31,7 +31,7 @@ class IndexController extends ActionController
     {
         return $this->discussService;
     }
- 
+
     /**
      * Set discussService.
      *

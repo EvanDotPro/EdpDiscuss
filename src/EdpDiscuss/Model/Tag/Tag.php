@@ -2,10 +2,9 @@
 
 namespace EdpDiscuss\Model\Tag;
 
-use ZfcBase\Model\ModelAbstract,
-    Bacon\Text\Slugifier\Slugifier;
+use Bacon\Text\Slugifier\Slugifier;
 
-class Tag extends ModelAbstract implements TagInterface
+class Tag implements TagInterface
 {
     /**
      * @var int
@@ -21,12 +20,12 @@ class Tag extends ModelAbstract implements TagInterface
      * @var string
      */
     protected $slug;
-    
+
     /**
      * @var Slugifier
      */
     protected $slugifier;
- 
+
     /**
      * Get tagId.
      *
@@ -98,7 +97,7 @@ class Tag extends ModelAbstract implements TagInterface
         }
         return $this->slugifier;
     }
- 
+
     public function setSlugifier($slugifier)
     {
         $this->slugifier = $slugifier;

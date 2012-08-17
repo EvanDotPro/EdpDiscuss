@@ -6,7 +6,7 @@ use ZfcBase\Model\ModelAbstract,
     Bacon\Text\Slugifier\Slugifier,
     EdpDiscuss\Model\Message\MessageInterface;
 
-class Thread extends ModelAbstract implements ThreadInterface
+class Thread implements ThreadInterface
 {
     /**
      * @var int
@@ -151,7 +151,7 @@ class Thread extends ModelAbstract implements ThreadInterface
         }
         return $this->slugifier;
     }
- 
+
     public function setSlugifier($slugifier)
     {
         $this->slugifier = $slugifier;

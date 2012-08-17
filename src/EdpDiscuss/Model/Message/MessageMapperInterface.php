@@ -6,7 +6,7 @@ interface MessageMapperInterface
 {
     /**
      * getMessageById
-     * 
+     *
      * @param int $messageId
      * @return MessageInterface
      */
@@ -14,18 +14,18 @@ interface MessageMapperInterface
 
     /**
      * getMessagesByThread
-     * 
-     * @param int $threadId 
-     * @param int $limit 
-     * @param int $offest 
+     *
+     * @param int $threadId
+     * @param int $limit
+     * @param int $offest
      * @return array of EdpDiscuss\Model\Message\MessageInterface's
      */
     public function getMessagesByThread($threadId, $limit = 25, $offset = 0);
 
     /**
-     * persist 
-     * 
-     * @param MessageInterface $message 
+     * persist
+     *
+     * @param MessageInterface $message
      * @return MessageInterface
      */
     public function persist(MessageInterface $message);

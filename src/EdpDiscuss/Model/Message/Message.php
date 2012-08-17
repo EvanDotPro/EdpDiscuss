@@ -2,11 +2,10 @@
 
 namespace EdpDiscuss\Model\Message;
 
-use ZfcBase\Model\ModelAbstract,
-    ZfcUser\Model\UserInterface,
-    DateTime;
+use ZfcUser\Model\UserInterface;
+use DateTime;
 
-class Message extends ModelAbstract implements MessageInterface
+class Message implements MessageInterface
 {
     /**
      * @var int
@@ -52,7 +51,7 @@ class Message extends ModelAbstract implements MessageInterface
     {
         return $this->messageId;
     }
- 
+
     /**
      * Set messageId.
      *
@@ -63,7 +62,7 @@ class Message extends ModelAbstract implements MessageInterface
         $this->messageId = $messageId;
         return $this;
     }
- 
+
     /**
      * Get postTime.
      *
@@ -73,7 +72,7 @@ class Message extends ModelAbstract implements MessageInterface
     {
         return $this->postTime;
     }
- 
+
     /**
      * Set postTime.
      *
@@ -88,7 +87,7 @@ class Message extends ModelAbstract implements MessageInterface
         }
         return $this;
     }
- 
+
     /**
      * Get authorName.
      *
@@ -98,7 +97,7 @@ class Message extends ModelAbstract implements MessageInterface
     {
         return $this->authorName;
     }
- 
+
     /**
      * Set authorName.
      *
@@ -109,7 +108,7 @@ class Message extends ModelAbstract implements MessageInterface
         $this->authorName = $authorName;
         return $this;
     }
- 
+
     /**
      * Get authorEmail.
      *
@@ -119,7 +118,7 @@ class Message extends ModelAbstract implements MessageInterface
     {
         return $this->authorEmail;
     }
- 
+
     /**
      * Set authorEmail.
      *
@@ -130,7 +129,7 @@ class Message extends ModelAbstract implements MessageInterface
         $this->authorEmail = $authorEmail;
         return $this;
     }
- 
+
     /**
      * Get authorUser.
      *
@@ -140,7 +139,7 @@ class Message extends ModelAbstract implements MessageInterface
     {
         return $this->authorUser;
     }
- 
+
     /**
      * Set authorUser.
      *
@@ -151,7 +150,7 @@ class Message extends ModelAbstract implements MessageInterface
         $this->authorUser = $authorUser;
         return $this;
     }
- 
+
     /**
      * Get message.
      *
@@ -161,7 +160,7 @@ class Message extends ModelAbstract implements MessageInterface
     {
         return $this->message;
     }
- 
+
     /**
      * Set message.
      *
@@ -172,7 +171,7 @@ class Message extends ModelAbstract implements MessageInterface
         $this->message = $message;
         return $this;
     }
- 
+
     /**
      * Get parentMessageId.
      *
@@ -182,7 +181,7 @@ class Message extends ModelAbstract implements MessageInterface
     {
         return $this->parentMessageId;
     }
- 
+
     /**
      * Set parentMessageId.
      *
