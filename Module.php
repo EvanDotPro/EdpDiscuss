@@ -40,7 +40,8 @@ class Module
                 },
                 'edpdiscuss_thread_mapper' => function($sm) {
                     $mapper = new \EdpDiscuss\Model\Thread\ThreadMapper;
-                    $threadModelClass = static::getOption('thread_model_class');
+                    //$threadModelClass = static::getOption('thread_model_class');
+                    $threadModelClass = Module::getOption('thread_model_class');
                     $mapper->setEntityPrototype(new $threadModelClass);
                     $mapper->setHydrator(new \Zend\Stdlib\Hydrator\ClassMethods);
                     return $mapper;
@@ -48,14 +49,16 @@ class Module
                 },
                 'edpdiscuss_tag_mapper' => function($sm) {
                     $mapper = new \EdpDiscuss\Model\Tag\TagMapper;
-                    $tagModelClass = static::getOption('tag_model_class');
+                    //$tagModelClass = static::getOption('tag_model_class');
+                    $tagModelClass = Module::getOption('tag_model_class');
                     $mapper->setEntityPrototype(new $tagModelClass);
                     $mapper->setHydrator(new \Zend\Stdlib\Hydrator\ClassMethods);
                     return $mapper;
                 },
                 'edpdiscuss_message_mapper' => function($sm) {
                     $mapper = new \EdpDiscuss\Model\Message\MessageMapper;
-                    $messageModelClass = static::getOption('message_model_class');
+                    //$messageModelClass = static::getOption('message_model_class');
+                    $messageModelClass = Module::getOption('message_model_class');
                     $mapper->setEntityPrototype(new $messageModelClass);
                     $mapper->setHydrator(new \Zend\Stdlib\Hydrator\ClassMethods);
                     return $mapper;

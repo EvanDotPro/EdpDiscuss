@@ -21,7 +21,9 @@ class MessageMapper extends AbstractDbMapper implements MessageMapperInterface, 
      */
     public function getMessageById($messageId)
     {
-        return $this->select(array($this->messageIDField => $messageId))->current();
+        $select = $this->getSelect()
+                       ->where(array($this->messageIDField => $messageId));
+        return $this->select($select)->current();
     }
 
     /**
@@ -34,7 +36,9 @@ class MessageMapper extends AbstractDbMapper implements MessageMapperInterface, 
      */
     public function getMessagesByThread($threadId, $limit = 25, $offset = 0)
     {
-        return $this->select(array($this->threadIDField => $threadId));
+        $select = $this->getSelect()
+                       ->where(array($this->threadIDField => $threadId));
+        return $this->select($select);
     }
 
     /**

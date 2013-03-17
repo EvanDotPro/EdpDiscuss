@@ -18,6 +18,9 @@ class TagMapper extends AbstractDbMapper implements TagMapperInterface, DbAdapte
      */
     public function getTagById($tagId)
     {
-        return $this->select(array('tag_id' => $tagId))->current();
+        $select = $this->getSelect()
+                       ->where(array('tag_id' => $tagId));
+        
+        return $this->select($select)->current();
     }
 }

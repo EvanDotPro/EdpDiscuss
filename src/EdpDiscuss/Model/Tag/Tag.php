@@ -2,7 +2,7 @@
 
 namespace EdpDiscuss\Model\Tag;
 
-use Bacon\Text\Slugifier\Slugifier;
+use BaconStringUtils\Slugifier;
 
 class Tag implements TagInterface
 {
