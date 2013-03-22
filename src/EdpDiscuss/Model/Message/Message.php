@@ -33,6 +33,11 @@ class Message implements MessageInterface
     protected $authorUser;
 
     /**
+     * @var ThreadInterface
+     */
+    protected $thread;
+    
+    /**
      * @var string
      */
     protected $message;
@@ -151,6 +156,27 @@ class Message implements MessageInterface
         return $this;
     }
 
+    /**
+     * Get thread.
+     *
+     * @return ThreadInterface
+     */
+    public function getThread()
+    {
+        return $this->thread;
+    }
+    
+    /**
+     * Set thread.
+     *
+     * @param ThreadInterface $thread the value to be set
+     */
+    public function setThread($thread)
+    {
+        $this->thread = $thread;
+        return $this;
+    }
+    
     /**
      * Get message.
      *

@@ -30,6 +30,9 @@ class Module
     public function getServiceConfig()
     {
         return array(
+            'invokables' => array(
+                'edpdiscuss_post_form_hydrator' => 'Zend\Stdlib\Hydrator\ClassMethods'
+            ),
             'factories' => array(
                 'edpdiscuss_discuss_service' => function($sm) {
                     $service = new \EdpDiscuss\Service\Discuss;
@@ -62,6 +65,14 @@ class Module
                     $mapper->setEntityPrototype(new $messageModelClass);
                     $mapper->setHydrator(new \Zend\Stdlib\Hydrator\ClassMethods);
                     return $mapper;
+                },
+                'edpdiscuss_message' => function ($sm) {
+                    $message = new \EdpDiscuss\Model\Message\Message;
+                    return $message;
+                },
+                'edpdiscuss_form' => function ($sm) {
+                    $form = new \EdpDiscuss\Form\PostForm;
+                    return $form;
                 },
             ),
             'initializers' => array(
