@@ -118,7 +118,7 @@ class Discuss implements ServiceManagerAwareInterface
      * @return MessageInterface
      */
     public function createMessage(array $data, $thread)
-    { 
+    {   
         // Create new message object.
         $message = $this->getServiceManager()->get('edpdiscuss_message');
         $message->setThread($thread);
@@ -150,27 +150,9 @@ class Discuss implements ServiceManagerAwareInterface
      * @return MessageInterface
      */
     public function updateMessage(MessageInterface $message)
-    {
-        // Create new message object.
-        $message = $this->messageMapper->getMessageById($data['message_id']);
-        
-        // Create new form and hydrator objects.
-        $form = $this->getServiceManager()->get('edpdiscuss_form');
-        $formHydrator = $this->getServiceManager()->get('edpdiscuss_post_form_hydrator');
-        
-        // validate data against form
-        $form->setHydrator($formHydrator);
-        $form->bind($message);
-        $form->setData($data);
-        if (!$form->isValid())
-        {
-            return false;
-        }
-        
-        // Valid, so persist message.
+    {   
         $message->setPostTime(new \DateTime);
-        return $this->messageMapper->persist($message);
-        
+        return $this->messageMapper->persist($message); 
     }
 
     /**

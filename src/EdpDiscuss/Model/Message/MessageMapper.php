@@ -50,7 +50,7 @@ class MessageMapper extends AbstractDbMapper implements MessageMapperInterface, 
     public function persist(MessageInterface $message)
     {
         if ($message->getMessageId() > 0) {
-            $this->update($message);
+            $this->update($message, null, null, new MessageHydrator);
         } else {
             $this->insert($message, null, new MessageHydrator);
         }
@@ -83,9 +83,8 @@ class MessageMapper extends AbstractDbMapper implements MessageMapperInterface, 
     protected function update($entity, $where = null, $tableName = null, HydratorInterface $hydrator = null)
     {
         if (!$where) {
-            $where = 'user_id = ' . $entity->getId();
+            $where = 'message_id = ' . $entity->getMessageId();
         }
-
         return parent::update($entity, $where, $tableName, $hydrator);
     }
 }
