@@ -3,7 +3,7 @@
 namespace EdpDiscuss\Model\Thread;
 
 use ZfcBase\Model\ModelAbstract,
-    Bacon\Text\Slugifier\Slugifier,
+    BaconStringUtils\Slugifier,
     EdpDiscuss\Model\Message\MessageInterface;
 
 class Thread implements ThreadInterface
