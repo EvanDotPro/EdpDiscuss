@@ -40,6 +40,11 @@ class Message implements MessageInterface
     /**
      * @var string
      */
+    protected $subject;
+    
+    /**
+     * @var string
+     */
     protected $message;
 
     /**
@@ -174,6 +179,27 @@ class Message implements MessageInterface
     public function setThread($thread)
     {
         $this->thread = $thread;
+        return $this;
+    }
+    
+    /**
+     * Get subject.
+     *
+     * @return string
+     */
+    public function getSubject()
+    {
+        return $this->subject;
+    }
+    
+    /**
+     * Set subject.
+     *
+     * @param string $subject the value to be set
+     */
+    public function setSubject($subject)
+    {
+        $this->subject = $subject;
         return $this;
     }
     
