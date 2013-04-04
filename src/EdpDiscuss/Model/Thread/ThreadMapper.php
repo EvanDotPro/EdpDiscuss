@@ -20,7 +20,9 @@ class ThreadMapper extends AbstractDbMapper implements ThreadMapperInterface, Db
      */
     public function getThreadById($threadId)
     {
-        return $this->select(array($this->threadIDField => $threadId))->current();
+        $select = $this->getSelect()
+                       ->where(array($this->threadIDField => $threadId));
+        return $this->select($select)->current();
     }
 
     /**
@@ -38,7 +40,7 @@ class ThreadMapper extends AbstractDbMapper implements ThreadMapperInterface, Db
             $select->from('discuss_thread')
                    ->join('discuss_thread_tag', 'discuss_thread_tag.thread_id = discuss_thread.thread_id')
                    ->where(array('tag_id = ?' => $tagId));
-            $rowset = $this->selectWith($select);
+            $rowset = $this->select($select);
         } else {
             $rowset = $this->select();
         }

@@ -21,7 +21,9 @@ class MessageMapper extends AbstractDbMapper implements MessageMapperInterface, 
      */
     public function getMessageById($messageId)
     {
-        return $this->select(array($this->messageIDField => $messageId))->current();
+        $select = $this->getSelect()
+                       ->where(array($this->messageIDField => $messageId));
+        return $this->select($select)->current();
     }
 
     /**
@@ -34,11 +36,13 @@ class MessageMapper extends AbstractDbMapper implements MessageMapperInterface, 
      */
     public function getMessagesByThread($threadId, $limit = 25, $offset = 0)
     {
-        return $this->select(array($this->threadIDField => $threadId));
+        $select = $this->getSelect()
+                       ->where(array($this->threadIDField => $threadId));
+        return $this->select($select);
     }
 
     /**
-     * persist
+     * persist - persists a message to the database.
      *
      * @param MessageInterface $message
      * @return MessageInterface
@@ -46,27 +50,41 @@ class MessageMapper extends AbstractDbMapper implements MessageMapperInterface, 
     public function persist(MessageInterface $message)
     {
         if ($message->getMessageId() > 0) {
-            $this->update($message);
+            $this->update($message, null, null, new MessageHydrator);
         } else {
-            $this->insert($message);
+            $this->insert($message, null, new MessageHydrator);
         }
 
         return $message;
     }
 
-    public function insert($entity, $tableName = null, HydratorInterface $hydrator = null)
+    /**
+     * insert - Inserts a new message into the database, using the specified hydrator.
+     * 
+     * @param MessageInterface $entity
+     * @param String $tableName
+     * @param HydratorInterface $hydrator
+     * @return unknown
+     */
+    protected function insert($entity, $tableName = null, HydratorInterface $hydrator = null)
     {
-        $result = $this->insert($entity, $tableName, $hydrator);
+        $result = parent::insert($entity, $tableName, $hydrator);
         $entity->setMessageId($result->getGeneratedValue());
         return $result;
     }
 
-    public function update($entity, $where = null, $tableName = null, HydratorInterface $hydrator = null)
+    /**
+     * update - Updates an existing message in the database.
+     * @param MessageInterface $entity
+     * @param String $where
+     * @param String $tableName
+     * @param HydratorInterface $hydrator
+     */
+    protected function update($entity, $where = null, $tableName = null, HydratorInterface $hydrator = null)
     {
         if (!$where) {
-            $where = 'user_id = ' . $entity->getId();
+            $where = 'message_id = ' . $entity->getMessageId();
         }
-
         return parent::update($entity, $where, $tableName, $hydrator);
     }
 }

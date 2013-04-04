@@ -14,6 +14,7 @@ CREATE TABLE discuss_message
     author_name       VARCHAR(50) DEFAULT NULL,
     thread_id         INTEGER NOT NULL,
     parent_message_id INTEGER DEFAULT NULL,
+    subject           VARCHAR(100) DEFAULT NOT NULL,
     message           TEXT NOT NULL,
     FOREIGN KEY (author_user_id) REFERENCES user (user_id),
     FOREIGN KEY (thread_id) REFERENCES discuss_thread (thread_id) ON DELETE CASCADE,

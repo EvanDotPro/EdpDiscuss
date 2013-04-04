@@ -8,10 +8,17 @@ use EdpDiscuss\Model\Message\MessageInterface,
     EdpDiscuss\Model\Thread\ThreadMapperInterface,
     EdpDiscuss\Model\Tag\TagInterface,
     EdpDiscuss\Model\Tag\TagMapperInterface,
-    ZfcUser\Module as ZfcUser;
+    ZfcUser\Module as ZfcUser,
+    Zend\ServiceManager\ServiceManagerAwareInterface,
+    Zend\ServiceManager\ServiceManager;
 
-class Discuss {
-
+class Discuss implements ServiceManagerAwareInterface
+{
+    /**
+     * @var ServiceManager
+     */
+    protected $serviceManager;
+    
     /**
      * @var ThreadMapperInterface
      */
@@ -27,6 +34,28 @@ class Discuss {
      */
     protected $tagMapper;
 
+    /**
+     * Retrieve service manager instance
+     *
+     * @return ServiceManager
+     */
+    public function getServiceManager()
+    {
+        return $this->serviceManager;
+    }
+    
+    /**
+     * Set service manager instance
+     *
+     * @param ServiceManager $serviceManager
+     * @return Discuss
+     */
+    public function setServiceManager(ServiceManager $serviceManager)
+    {
+        $this->serviceManager = $serviceManager;
+        return $this;
+    }
+    
     /**
      * getLatestThreads
      *
@@ -85,13 +114,32 @@ class Discuss {
     /**
      * createMessage
      *
-     * @param MessageInterface $message
+     * @param array $data
      * @return MessageInterface
      */
-    public function createMessage(MessageInterface $message)
-    {
+    public function createMessage(array $data, $thread)
+    {   
+        // Create new message object.
+        $message = $this->getServiceManager()->get('edpdiscuss_message');
+        $message->setThread($thread);
+                
+        // Create new form and hydrator objects.
+        $form = $this->getServiceManager()->get('edpdiscuss_form');
+        $formHydrator = $this->getServiceManager()->get('edpdiscuss_post_form_hydrator');
+        
+        // validate data against form
+        $form->setHydrator($formHydrator);
+        $form->bind($message);
+        $form->setData($data);
+        if (!$form->isValid())
+        {
+            return false;
+        }
+        
+        // Valid, so persist message.
+        $message->setPostTime(new \DateTime);
         $message = $this->messageMapper->persist($message);
-        $this->events()->trigger(__FUNCTION__, $this, array('message' => $message));
+     //   $this->events()->trigger(__FUNCTION__, $this, array('message' => $message));
         return $message;
     }
 
@@ -102,8 +150,9 @@ class Discuss {
      * @return MessageInterface
      */
     public function updateMessage(MessageInterface $message)
-    {
-        return $this->messageMapper->persist($message);
+    {   
+        $message->setPostTime(new \DateTime);
+        return $this->messageMapper->persist($message); 
     }
 
     /**
@@ -128,6 +177,17 @@ class Discuss {
         return $this->threadMapper->getThreadById($threadId);
     }
 
+    /**
+     * getMessageById
+     * 
+     * @param int $messageId
+     * @return MessageInterface
+     */
+    public function getMessageById($messageId)
+    {
+        return $this->messageMapper->getMessageById($messageId);
+    }
+    
     /**
      * getThreadMapper
      *

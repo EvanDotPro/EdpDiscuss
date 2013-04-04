@@ -78,6 +78,20 @@ interface MessageInterface
     public function setAuthorUser(UserInterface $authorUser);
 
     /**
+     * Get subject.
+     *
+     * @return string
+     */
+    public function getSubject();
+    
+    /**
+     * Set subject.
+     *
+     * @param string $subject the value to be set
+    */
+    public function setSubject($subject);
+    
+    /**
      * Get message.
      *
      * @return string
