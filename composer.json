@@ -19,6 +19,9 @@
         "zf-commons/zfc-base": "dev-master"
     },
     "autoload": {
+        "psr-0": {
+            "EdpDiscuss": "src/"
+        },
         "classmap": [
             "./Module.php"
         ]
