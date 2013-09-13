@@ -1,0 +1,29 @@
+{
+    "name": "evandotpro/edpdiscuss",
+    "description": "A very simple and generic threaded discussion module for ZF2. Great for forums, comments, etc.",
+    "type": "library",
+    "keywords": [
+        "zf2"
+    ],
+    "homepage": "https://github.com/EvanDotPro/EdpDiscuss",
+    "authors": [
+        {
+            "name": "Evan Coury",
+            "email": "me@evancoury.com",
+            "homepage": "http://blog.evan.pro/"
+        }
+    ],
+    "require": {
+        "php": ">=5.3",
+        "zendframework/zendframework": "2.*",
+        "zf-commons/zfc-base": "dev-master"
+    },
+    "autoload": {
+        "psr-0": {
+            "EdpDiscuss": "src/"
+        },
+        "classmap": [
+            "./Module.php"
+        ]
+    }
+}
