@@ -11,4 +11,11 @@ interface TagMapperInterface
      * @return TagInterface
      */
     public function getTagById($tagId);
+    
+    /**
+     * getTags
+     *
+     * @return array of TagInterface's
+     */
+    public function getTags();
 }

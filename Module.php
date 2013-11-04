@@ -117,4 +117,14 @@ class Module
         }
         return static::$options[$option];
     }
+    
+    public function getViewHelperConfig()
+    {
+        return array(
+            'invokables' => array(
+                'RenderForm' => 'EdpDiscuss\View\Helper\RenderForm'
+            )
+        );
+    
+    }
 }

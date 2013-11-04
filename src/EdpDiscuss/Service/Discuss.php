@@ -165,6 +165,16 @@ class Discuss implements ServiceManagerAwareInterface
     {
         return $this->tagMapper->getTagById($tagId);
     }
+    
+    /**
+     * getTags
+     * 
+     * @return array
+     */
+    public function getTags()
+    {
+        return $this->tagMapper->getTags();
+    }
 
     /**
      * getThreadById
