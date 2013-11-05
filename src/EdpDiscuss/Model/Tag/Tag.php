@@ -15,6 +15,11 @@ class Tag implements TagInterface
      * @var string
      */
     protected $name;
+    
+    /**
+     * @var string
+     */
+    protected $description;
 
     /**
      * @var string
@@ -69,6 +74,27 @@ class Tag implements TagInterface
         return $this;
     }
 
+    /**
+     * Get description.
+     *
+     * @return description
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set description.
+     *
+     * @param $description the value to be set
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+        return $this;
+    }
+    
     /**
      * Get slug.
      *

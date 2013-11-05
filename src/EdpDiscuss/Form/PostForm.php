@@ -27,7 +27,9 @@ class PostForm extends Form
                 ),
                 'attributes' => array(
                         'type' => 'text',
+                        'class' => 'form-control',
                 ),
+                
         ));
         
         $this->add(array(
@@ -36,8 +38,11 @@ class PostForm extends Form
                         'label' => 'Message',
                 ),
                 'attributes' => array(
-                        'type' => 'text',
+                        'type' => 'textarea',
+                        'class' => 'form-control',
+                        'rows' => '6',
                 ),
+                
         ));
         
         // Submit button.

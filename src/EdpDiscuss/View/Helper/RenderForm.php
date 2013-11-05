@@ -17,7 +17,13 @@ class RenderForm extends AbstractHelper
         foreach($elements as $element)
         {
             $hidden = ($element->getAttribute('type') == 'hidden');
-            	
+
+            $offset = "";
+            if ($element->getAttribute('type') == 'submit')
+            {
+            	$offset ="col-sm-offset-2 ";
+            }
+            
             if (!$hidden)
             {
                 $messages = $element->getMessages();
@@ -32,15 +38,21 @@ class RenderForm extends AbstractHelper
             $label = $element->getLabel();
             if (isset($label) && '' !== $label)
             {
-                $element->setLabelAttributes(array('class' => 'control-label'));
+                $element->setLabelAttributes(array('class' => 'col-sm-2 control-label'));
                 $output .= $this->view->formLabel($element) . PHP_EOL;
             }
 
             // Render the actual element (and any errors)
-            $output .= '<div class="controls">' . PHP_EOL;
+            if (!$hidden)
+            {
+                $output .= '<div class=" ' . $offset . 'col-sm-10">' . PHP_EOL;
+            }
             $output .= $this->view->formElement($element) . PHP_EOL;
             $output .= $this->view->formElementErrors($element) . PHP_EOL;
-            $output .= '</div>' . PHP_EOL;
+            if (!$hidden)
+            {
+                $output .= '</div>' . PHP_EOL;
+            }
 
             if (!$hidden)
             {

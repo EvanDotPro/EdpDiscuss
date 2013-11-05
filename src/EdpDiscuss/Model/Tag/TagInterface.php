@@ -31,6 +31,20 @@ interface TagInterface
      * @param $name the value to be set
      */
     public function setName($name);
+    
+    /**
+     * Get description.
+     *
+     * @return description
+     */
+    public function getDescription();
+
+    /**
+     * Set description.
+     *
+     * @param $description the value to be set
+     */
+    public function setDescription($description);
 
     /**
      * Get slug.
