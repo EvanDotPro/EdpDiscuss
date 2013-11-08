@@ -32,6 +32,21 @@ class Tag implements TagInterface
     protected $slugifier;
 
     /**
+     * @var integer
+     */
+    protected $threadCount;
+    
+    /**
+     * @var integer
+     */
+    protected $messageCount;
+    
+    /**
+     * @var Date
+     */
+    protected $lastPost;
+    
+    /**
      * Get tagId.
      *
      * @return tagId
@@ -116,6 +131,11 @@ class Tag implements TagInterface
         return $this;
     }
 
+    /**
+     * Get Slugifier.
+     * 
+     * @return Slugifier
+     */
     public function getSlugifier()
     {
         if ($this->slugifier === null) {
@@ -124,9 +144,76 @@ class Tag implements TagInterface
         return $this->slugifier;
     }
 
+    /**
+     * Set Slugifier.
+     * 
+     * @param Slugifier
+     */
     public function setSlugifier($slugifier)
     {
         $this->slugifier = $slugifier;
         return $this;
+    }
+    
+    /**
+     * Set thread count.
+     * @param integer $threadCount
+     */
+    public function setThreadCount($threadCount)
+    {
+    	$this->threadCount = $threadCount;
+    	return $this;
+    }
+    
+    /**
+     * Get thread count.
+     * 
+     * @return integer
+     */
+    public function getThreadCount()
+    {
+    	return $this->threadCount;
+    }
+    
+    /**
+     * Set Message Count.
+     * 
+     * @param integer $messageCount
+     */
+    public function setMessageCount($messageCount)
+    {
+    	$this->messageCount = $messageCount;
+    	return $this;
+    }
+    
+    /**
+     * Get Message Count.
+     * 
+     * @return integer
+     */
+    public function getMessageCount()
+    {
+    	return $this->messageCount;
+    }
+    
+    /**
+     * Set Last Post
+     * 
+     * @param Date $lastPost
+     */
+    public function setLastPost($lastPost)
+    {
+    	$this->lastPost = $lastPost;
+    	return $this;
+    }
+    
+    /**
+     * Get Last Post.
+     * 
+     * @return Date
+     */
+    public function getLastPost()
+    {
+    	return $this->lastPost;
     }
 }
