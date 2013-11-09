@@ -5,6 +5,7 @@ namespace EdpDiscuss\Model\Tag;
 use ZfcBase\Mapper\AbstractDbMapper;
 use EdpDiscuss\Module as EdpDiscuss;
 use EdpDiscuss\Service\DbAdapterAwareInterface;
+use Zend\Db\Sql\Sql;
 use Zend\Db\Sql\Expression;
 
 class TagMapper extends AbstractDbMapper implements TagMapperInterface, DbAdapterAwareInterface
@@ -48,5 +49,21 @@ class TagMapper extends AbstractDbMapper implements TagMapperInterface, DbAdapte
                       'left')
                ->group(array('discuss_tag.name', 'discuss_tag.slug', 'discuss_tag.description'));
         return $this->select($select);
+    }
+    
+    /**
+     * Add Thread.
+     * 
+     * @param integer $tag_id
+     * @param integer $thread_id
+     */
+    public function addThread($tag_id, $thread_id)
+    {
+        $sql = new Sql($this->getDbAdapter());
+        $insert = $sql->insert();
+        $insert->into('discuss_thread_tag');
+        $insert->values(array('tag_id' => $tag_id, 'thread_id' => $thread_id));
+        $sql->prepareStatementForSqlObject($insert)
+            ->execute();
     }
 }

@@ -66,6 +66,10 @@ class Module
                     $mapper->setHydrator(new \Zend\Stdlib\Hydrator\ClassMethods);
                     return $mapper;
                 },
+                'edpdiscuss_thread' => function ($sm) {
+                    $thread = new \EdpDiscuss\Model\Thread\Thread;
+                    return $thread;
+                },
                 'edpdiscuss_message' => function ($sm) {
                     $message = new \EdpDiscuss\Model\Message\Message;
                     return $message;

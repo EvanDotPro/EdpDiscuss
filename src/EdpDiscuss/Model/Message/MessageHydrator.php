@@ -30,15 +30,7 @@ class MessageHydrator extends ClassMethods
         $thread = $object->getThread();
         $data['thread_id'] = (int)$thread->getThreadId();
         unset($data['thread']);
-        
-        
         $data['post_time'] = $data['post_time']->format('Y-m-d H:i:s');
-            
-        //die(var_dump($data));
-        
-        // Example of how to map fields.
-        //$data = $this->mapField('id', 'user_id', $data);
-        
         return $data;
     }
 

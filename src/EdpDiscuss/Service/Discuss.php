@@ -86,17 +86,16 @@ class Discuss implements ServiceManagerAwareInterface
      * createThread
      *
      * @param ThreadInterface $thread
+     * @param MessageInterface $message
      * @return ThreadInterface
      */
     public function createThread(ThreadInterface $thread, MessageInterface $message)
     {
-        $message = $this->messageMapper->persist($message);
-
-        $thread->setOriginalMessage($message);
+        $thread->setSubject($message->getSubject());
         $thread = $this->threadMapper->persist($thread);
-
-        $this->events()->trigger(__FUNCTION__, $this, array('thread' => $thread));
-
+        $message->setPostTime(new \DateTime);
+        $message = $this->messageMapper->persist($message);       
+        //$this->events()->trigger(__FUNCTION__, $this, array('thread' => $thread));
         return $thread;
     }
 
@@ -243,6 +242,22 @@ class Discuss implements ServiceManagerAwareInterface
     public function setTagMapper(TagMapperInterface $tagMapper)
     {
         $this->tagMapper = $tagMapper;
+        return $this;
+    }
+    
+    /**
+     * Associate tag and thread.
+     * 
+     * @param TagInterface $tag
+     * @param ThreadInterface $thread
+     * @return \EdpDiscuss\Service\Discuss
+     */
+    public function associateTagAndThread(TagInterface $tag, ThreadInterface $thread)
+    {
+        $this->getTagMapper()->addThread(
+            $tag->getTagId(),
+            $thread->getThreadId()
+        );
         return $this;
     }
 }

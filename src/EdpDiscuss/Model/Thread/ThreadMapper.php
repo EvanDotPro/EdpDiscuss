@@ -6,6 +6,7 @@ use ZfcBase\Mapper\AbstractDbMapper;
 use EdpDiscuss\Module as EdpDiscuss;
 use Zend\Db\Sql\Select;
 use EdpDiscuss\Service\DbAdapterAwareInterface;
+use Zend\Stdlib\Hydrator\HydratorInterface;
 
 class ThreadMapper extends AbstractDbMapper implements ThreadMapperInterface, DbAdapterAwareInterface
 {
@@ -49,23 +50,50 @@ class ThreadMapper extends AbstractDbMapper implements ThreadMapperInterface, Db
     }
 
     /**
-     * persist
+     * persist - Persists a thread to the database.
      *
      * @param ThreadInterface $thread
      * @return ThreadInterface
      */
     public function persist(ThreadInterface $thread)
     {
-        $data = new ArrayObject($thread->toArray());
         if ($thread->getThreadId() > 0) {
-            $this->getTableGateway()->update((array) $data, array($this->threadIDField => $thread->getThreadId()));
+            $this->update($thread, null, null, new ThreadHydrator);
         } else {
-            $this->getTableGateway()->insert((array) $data);
-            $threadId = $this->getTableGateway()->getAdapter()->getDriver()->getConnection()->getLastGeneratedId();
-            $thread->setThreadId($threadId);
+            $this->insert($thread, null, new ThreadHydrator);
         }
-
+        
         return $thread;
+    }
+    
+    /**
+     * insert - Inserts a new thread into the database, using the specified hydrator.
+     *
+     * @param ThreadInterface $entity
+     * @param String $tableName
+     * @param HydratorInterface $hydrator
+     * @return unknown
+     */
+    protected function insert($entity, $tableName = null, HydratorInterface $hydrator = null)
+    {        
+        $result = parent::insert($entity, $tableName, $hydrator);
+        $entity->setThreadId($result->getGeneratedValue());
+        return $result;
+    }
+    
+    /**
+     * update - Updates an existing thread in the database.
+     * @param ThreadInterface $entity
+     * @param String $where
+     * @param String $tableName
+     * @param HydratorInterface $hydrator
+     */
+    protected function update($entity, $where = null, $tableName = null, HydratorInterface $hydrator = null)
+    {
+        if (!$where) {
+            $where = 'thread_id = ' . $entity->getThreadId();
+        }
+        return parent::update($entity, $where, $tableName, $hydrator);
     }
 }
 
