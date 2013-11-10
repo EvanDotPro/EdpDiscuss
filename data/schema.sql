@@ -35,3 +35,12 @@ CREATE TABLE discuss_thread_tag
     FOREIGN KEY (thread_id) REFERENCES discuss_thread (thread_id),
     FOREIGN KEY (tag_id) REFERENCES discuss_tag (tag_id)
 ) ENGINE=InnoDB;
+
+CREATE TABLE discuss_visit
+(
+    ip_address VARCHAR(45) NOT NULL,
+    thread_id INT UNSIGNED NOT NULL,
+    visit_time   DATETIME NOT NULL,
+    PRIMARY KEY(ip_address, thread_id),
+    FOREIGN KEY (thread_id) REFERENCES discuss_thread(thread_id)
+) ENGINE=InnoDB;

@@ -260,4 +260,15 @@ class Discuss implements ServiceManagerAwareInterface
         );
         return $this;
     }
+    
+    /**
+     * storeVisitIfUnique - records the visit if it is unuiqe.
+     * @param ThreadInterface $thread
+     * @return \EdpDiscuss\Service\Discuss
+     */
+    public function storeVisitIfUnique(ThreadInterface $thread)
+    {
+        $this->getThreadMapper()->storeVisitIfUnique($thread);
+        return $this;
+    }
 }

@@ -5,6 +5,7 @@ namespace EdpDiscuss\Model\Thread;
 use ZfcBase\Mapper\AbstractDbMapper;
 use EdpDiscuss\Module as EdpDiscuss;
 use Zend\Db\Sql\Select;
+use Zend\Db\Sql\Expression;
 use EdpDiscuss\Service\DbAdapterAwareInterface;
 use Zend\Stdlib\Hydrator\HydratorInterface;
 
@@ -35,18 +36,20 @@ class ThreadMapper extends AbstractDbMapper implements ThreadMapperInterface, Db
      */
     public function getLatestThreads($limit = 25, $offset = 0, $tagId = false)
     {
-        if ($tagId) {
-            $select = new Select();
-            // @TODO: Join the original and latest messages
-            $select->from('discuss_thread')
-                   ->join('discuss_thread_tag', 'discuss_thread_tag.thread_id = discuss_thread.thread_id')
-                   ->where(array('tag_id = ?' => $tagId));
-            $rowset = $this->select($select);
-        } else {
-            $rowset = $this->select();
-        }
-
-        return $rowset;
+        $select = $this->getSelect();
+        $select->join(array('tt' => 'discuss_thread_tag'),
+                      'tt.thread_id = discuss_thread.thread_id',
+                      array())
+                ->join(array('m' => 'discuss_message'),
+                       'm.thread_id = discuss_thread.thread_id',
+                       array(
+                           'message_count' => new Expression('COUNT(DISTINCT m.message_id)'),
+                           'last_post' => new Expression('MAX(m.post_time)')
+                       ),
+                       'left')
+                ->where(array('tag_id = ?' => $tagId))
+                ->group(array('discuss_thread.subject', 'discuss_thread.slug'));
+        return $this->select($select);
     }
 
     /**
@@ -75,7 +78,8 @@ class ThreadMapper extends AbstractDbMapper implements ThreadMapperInterface, Db
      * @return unknown
      */
     protected function insert($entity, $tableName = null, HydratorInterface $hydrator = null)
-    {        
+    {  
+        //die(var_dump($entity));      
         $result = parent::insert($entity, $tableName, $hydrator);
         $entity->setThreadId($result->getGeneratedValue());
         return $result;

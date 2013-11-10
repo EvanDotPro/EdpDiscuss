@@ -39,6 +39,16 @@ class Thread implements ThreadInterface
     protected $slugifier;
 
     /**
+     * @var integer
+     */
+    protected $messageCount;
+    
+    /**
+     * @var Date
+     */
+    protected $lastPost;
+    
+    /**
      * Get threadId.
      *
      * @return threadId
@@ -156,5 +166,47 @@ class Thread implements ThreadInterface
     {
         $this->slugifier = $slugifier;
         return $this;
+    }
+    
+    /**
+     * Set Message Count.
+     *
+     * @param integer $messageCount
+     */
+    public function setMessageCount($messageCount)
+    {
+        $this->messageCount = $messageCount;
+        return $this;
+    }
+    
+    /**
+     * Get Message Count.
+     *
+     * @return integer
+     */
+    public function getMessageCount()
+    {
+        return $this->messageCount;
+    }
+    
+    /**
+     * Set Last Post
+     *
+     * @param Date $lastPost
+     */
+    public function setLastPost($lastPost)
+    {
+        $this->lastPost = $lastPost;
+        return $this;
+    }
+    
+    /**
+     * Get Last Post.
+     *
+     * @return Date
+     */
+    public function getLastPost()
+    {
+        return $this->lastPost;
     }
 }
