@@ -8,6 +8,8 @@ use EdpDiscuss\Model\Message\MessageInterface,
     EdpDiscuss\Model\Thread\ThreadMapperInterface,
     EdpDiscuss\Model\Tag\TagInterface,
     EdpDiscuss\Model\Tag\TagMapperInterface,
+    EdpDiscuss\Model\Visit\VisitInterface,
+    EdpDiscuss\Model\Visit\VisitMapperInterface,
     ZfcUser\Module as ZfcUser,
     Zend\ServiceManager\ServiceManagerAwareInterface,
     Zend\ServiceManager\ServiceManager;
@@ -246,6 +248,28 @@ class Discuss implements ServiceManagerAwareInterface
     }
     
     /**
+     * Set Visit Mapper
+     * 
+     * Enter description here ...
+     * @param VisitMapperInterface $visitMapper
+     */
+    public function setVisitMapper(VisitMapperInterface $visitMapper)
+    {
+    	$this->visitMapper = $visitMapper;
+    	return $this;
+    }
+    
+    /**
+     * Get Vist Mapper.
+     * 
+     * Enter description here ...
+     */
+    public function getVisitMapper()
+    {
+    	return $this->visitMapper;
+    }
+    
+    /**
      * Associate tag and thread.
      * 
      * @param TagInterface $tag
@@ -266,9 +290,9 @@ class Discuss implements ServiceManagerAwareInterface
      * @param ThreadInterface $thread
      * @return \EdpDiscuss\Service\Discuss
      */
-    public function storeVisitIfUnique(ThreadInterface $thread)
+    public function storeVisitIfUnique(VisitInterface $visit)
     {
-        $this->getThreadMapper()->storeVisitIfUnique($thread);
+        $this->getVisitMapper()->storeVisitIfUnique($visit);
         return $this;
     }
 }

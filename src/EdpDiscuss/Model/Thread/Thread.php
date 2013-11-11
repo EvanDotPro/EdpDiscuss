@@ -44,6 +44,11 @@ class Thread implements ThreadInterface
     protected $messageCount;
     
     /**
+     * @var integer
+     */
+    protected $visitCount;
+    
+    /**
      * @var Date
      */
     protected $lastPost;
@@ -187,6 +192,28 @@ class Thread implements ThreadInterface
     public function getMessageCount()
     {
         return $this->messageCount;
+    }
+    
+    /**
+     * Set View Count
+     * 
+     * Enter description here ...
+     * @param unknown_type $viewCount
+     */
+    public function setVisitCount($viewCount)
+    {
+    	$this->viewCount = $viewCount;
+    	return $this;
+    }
+    
+    /**
+     * Get View Count
+     * 
+     * @return integer
+     */
+    public function getVisitCount()
+    {
+    	return $this->viewCount;
     }
     
     /**

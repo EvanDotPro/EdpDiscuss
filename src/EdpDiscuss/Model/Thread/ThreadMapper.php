@@ -47,8 +47,15 @@ class ThreadMapper extends AbstractDbMapper implements ThreadMapperInterface, Db
                            'last_post' => new Expression('MAX(m.post_time)')
                        ),
                        'left')
+                ->join(array('v' => 'discuss_visit'),
+                       'v.thread_id = discuss_thread.thread_id',
+                       array(
+                           'visit_count' => new Expression('COUNT(DISTINCT v.ip_address)')
+                       ),
+                       'left')
                 ->where(array('tag_id = ?' => $tagId))
                 ->group(array('discuss_thread.subject', 'discuss_thread.slug'));
+        //die($select->getSqlString());    
         return $this->select($select);
     }
 

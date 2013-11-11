@@ -13,8 +13,8 @@ class VisitMapper extends AbstractDbMapper implements VisitMapperInterface, DbAd
     {
         $select = $this->getSelect()
                        ->where(array(
-                           ipAddress => $visit->getIpAddress(),
-                           threadId => $visit->getThread->getThreadId()
+                           'ip_address' => $visit->getIpAddress(),
+                           'thread_id' => $visit->getThread()->getThreadId()
                        ));
         $result = $this->select($select)->current();
         if (!$result) {

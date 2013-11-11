@@ -2,6 +2,8 @@
 
 namespace EdpDiscuss\Model\Visit;
 
+use EdpDiscuss\Model\Thread\ThreadInterface;
+
 class Visit implements VisitInterface
 {
     /**
@@ -47,10 +49,10 @@ class Visit implements VisitInterface
      */
     public function setVisitTime($visitTime)
     {
-        if ($visitTime instanceof DateTime) {
+        if ($visitTime instanceof \DateTime) {
             $this->visitTime = $visitTime;
         } else {
-            $this->visitTime = new DateTime($visitTime);
+            $this->visitTime = new \DateTime($visitTime);
         }
         return $this;
     }
@@ -66,9 +68,10 @@ class Visit implements VisitInterface
     /**
      * setThread - Sets the thread.
      * 
+     * @param ThreadInterface $thread
      * @return \EdpDiscuss\Model\Visit\Visit
      */
-    public function setThread()
+    public function setThread(ThreadInterface $thread)
     {
         $this->thread = $thread;
         return $this;

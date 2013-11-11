@@ -24,6 +24,7 @@ class ThreadHydrator extends ClassMethods
         unset($data['latest_message']);
         unset($data['slugifier']);
         unset($data['message_count']);
+        unset($data['visit_count']);
         unset($data['last_post']);
         return $data;
     }

@@ -2,6 +2,8 @@
 
 namespace EdpDiscuss\Model\Visit;
 
+use EdpDiscuss\Model\Thread\ThreadInterface;
+
 interface VisitInterface
 {
     /**
@@ -33,7 +35,7 @@ interface VisitInterface
      * 
      * @param unknown_type $thread
      */
-    public function setThread($thread);
+    public function setThread(ThreadInterface $thread);
     
     /**
      * getThread

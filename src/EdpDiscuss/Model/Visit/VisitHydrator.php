@@ -23,7 +23,7 @@ class VisitHydrator extends ClassMethods
         $data['thread_id'] = (int)$thread->getThreadId();
         unset($data['thread']);
         $data['visit_time'] = $data['visit_time']->format('Y-m-d H:i:s');
-        return $date;
+        return $data;
     }
     
     /**
