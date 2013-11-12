@@ -2,9 +2,10 @@
 
 namespace EdpDiscuss\Model\Thread;
 
-use ZfcBase\Model\ModelAbstract,
-    BaconStringUtils\Slugifier,
-    EdpDiscuss\Model\Message\MessageInterface;
+use ZfcBase\Model\ModelAbstract;
+use BaconStringUtils\Slugifier;
+use EdpDiscuss\Model\Message\MessageInterface;
+use DateTime;
 
 class Thread implements ThreadInterface
 {
@@ -219,11 +220,15 @@ class Thread implements ThreadInterface
     /**
      * Set Last Post
      *
-     * @param Date $lastPost
+     * @param DateTime $lastPost
      */
     public function setLastPost($lastPost)
     {
-        $this->lastPost = $lastPost;
+        if ($lastPost instanceof DateTime) {
+            $this->lastPost = $lastPost;
+        } else {
+            $this->lastPost = new DateTime($lastPost);
+        }
         return $this;
     }
     

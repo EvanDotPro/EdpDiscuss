@@ -3,6 +3,7 @@
 namespace EdpDiscuss\Model\Tag;
 
 use BaconStringUtils\Slugifier;
+use DateTime;
 
 class Tag implements TagInterface
 {
@@ -203,8 +204,12 @@ class Tag implements TagInterface
      */
     public function setLastPost($lastPost)
     {
-    	$this->lastPost = $lastPost;
-    	return $this;
+    	if ($lastPost instanceof DateTime) {
+            $this->lastPost = $lastPost;
+        } else {
+            $this->lastPost = new DateTime($lastPost);
+        }
+        return $this;
     }
     
     /**
