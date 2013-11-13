@@ -38,7 +38,8 @@ class Module
                     $service = new \EdpDiscuss\Service\Discuss;
                     $service->setThreadMapper($sm->get('edpdiscuss_thread_mapper'))
                             ->setMessageMapper($sm->get('edpdiscuss_message_mapper'))
-                            ->setTagMapper($sm->get('edpdiscuss_tag_mapper'));
+                            ->setTagMapper($sm->get('edpdiscuss_tag_mapper'))
+                            ->setVisitMapper($sm->get('edpdiscuss_visit_mapper'));
                     return $service;
                 },
                 'edpdiscuss_thread_mapper' => function($sm) {
@@ -66,6 +67,17 @@ class Module
                     $mapper->setHydrator(new \Zend\Stdlib\Hydrator\ClassMethods);
                     return $mapper;
                 },
+                'edpdiscuss_visit_mapper' => function($sm) {
+                    $mapper = new \EdpDiscuss\Model\Visit\VisitMapper;
+                    $visitModelClass = Module::getOption('visit_model_class');
+                    $mapper->setEntityPrototype(new $visitModelClass);
+                    $mapper->setHydrator(new \Zend\StdLib\Hydrator\ClassMethods);
+                    return $mapper;
+                },
+                'edpdiscuss_thread' => function ($sm) {
+                    $thread = new \EdpDiscuss\Model\Thread\Thread;
+                    return $thread;
+                },
                 'edpdiscuss_message' => function ($sm) {
                     $message = new \EdpDiscuss\Model\Message\Message;
                     return $message;
@@ -74,6 +86,12 @@ class Module
                     $form = new \EdpDiscuss\Form\PostForm;
                     return $form;
                 },
+                'edpdiscuss_visit' => function ($sm) {
+                    $visit = new \EdpDiscuss\Model\Visit\Visit;
+                    $visit->setIpAddress($_SERVER['REMOTE_ADDR'])
+                          ->setVisitTime(new \DateTime);
+                    return $visit;
+                }
             ),
             'initializers' => array(
                 function($instance, $sm){
@@ -116,5 +134,15 @@ class Module
             return null;
         }
         return static::$options[$option];
+    }
+    
+    public function getViewHelperConfig()
+    {
+        return array(
+            'invokables' => array(
+                'RenderForm' => 'EdpDiscuss\View\Helper\RenderForm'
+            )
+        );
+    
     }
 }

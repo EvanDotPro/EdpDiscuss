@@ -8,6 +8,8 @@ use EdpDiscuss\Model\Message\MessageInterface,
     EdpDiscuss\Model\Thread\ThreadMapperInterface,
     EdpDiscuss\Model\Tag\TagInterface,
     EdpDiscuss\Model\Tag\TagMapperInterface,
+    EdpDiscuss\Model\Visit\VisitInterface,
+    EdpDiscuss\Model\Visit\VisitMapperInterface,
     ZfcUser\Module as ZfcUser,
     Zend\ServiceManager\ServiceManagerAwareInterface,
     Zend\ServiceManager\ServiceManager;
@@ -86,17 +88,16 @@ class Discuss implements ServiceManagerAwareInterface
      * createThread
      *
      * @param ThreadInterface $thread
+     * @param MessageInterface $message
      * @return ThreadInterface
      */
     public function createThread(ThreadInterface $thread, MessageInterface $message)
     {
-        $message = $this->messageMapper->persist($message);
-
-        $thread->setOriginalMessage($message);
+        $thread->setSubject($message->getSubject());
         $thread = $this->threadMapper->persist($thread);
-
-        $this->events()->trigger(__FUNCTION__, $this, array('thread' => $thread));
-
+        $message->setPostTime(new \DateTime);
+        $message = $this->messageMapper->persist($message);       
+        //$this->events()->trigger(__FUNCTION__, $this, array('thread' => $thread));
         return $thread;
     }
 
@@ -114,29 +115,12 @@ class Discuss implements ServiceManagerAwareInterface
     /**
      * createMessage
      *
-     * @param array $data
+     * @param MessageInterface $message
      * @return MessageInterface
      */
-    public function createMessage(array $data, $thread)
+    public function createMessage(MessageInterface $message)
     {   
-        // Create new message object.
-        $message = $this->getServiceManager()->get('edpdiscuss_message');
-        $message->setThread($thread);
-                
-        // Create new form and hydrator objects.
-        $form = $this->getServiceManager()->get('edpdiscuss_form');
-        $formHydrator = $this->getServiceManager()->get('edpdiscuss_post_form_hydrator');
-        
-        // validate data against form
-        $form->setHydrator($formHydrator);
-        $form->bind($message);
-        $form->setData($data);
-        if (!$form->isValid())
-        {
-            return false;
-        }
-        
-        // Valid, so persist message.
+        // Set post time and persist message.
         $message->setPostTime(new \DateTime);
         $message = $this->messageMapper->persist($message);
      //   $this->events()->trigger(__FUNCTION__, $this, array('message' => $message));
@@ -164,6 +148,16 @@ class Discuss implements ServiceManagerAwareInterface
     public function getTagById($tagId)
     {
         return $this->tagMapper->getTagById($tagId);
+    }
+    
+    /**
+     * getTags
+     * 
+     * @return array
+     */
+    public function getTags()
+    {
+        return $this->tagMapper->getTags();
     }
 
     /**
@@ -250,6 +244,55 @@ class Discuss implements ServiceManagerAwareInterface
     public function setTagMapper(TagMapperInterface $tagMapper)
     {
         $this->tagMapper = $tagMapper;
+        return $this;
+    }
+    
+    /**
+     * Set Visit Mapper
+     * 
+     * Enter description here ...
+     * @param VisitMapperInterface $visitMapper
+     */
+    public function setVisitMapper(VisitMapperInterface $visitMapper)
+    {
+    	$this->visitMapper = $visitMapper;
+    	return $this;
+    }
+    
+    /**
+     * Get Vist Mapper.
+     * 
+     * Enter description here ...
+     */
+    public function getVisitMapper()
+    {
+    	return $this->visitMapper;
+    }
+    
+    /**
+     * Associate tag and thread.
+     * 
+     * @param TagInterface $tag
+     * @param ThreadInterface $thread
+     * @return \EdpDiscuss\Service\Discuss
+     */
+    public function associateTagAndThread(TagInterface $tag, ThreadInterface $thread)
+    {
+        $this->getTagMapper()->addThread(
+            $tag->getTagId(),
+            $thread->getThreadId()
+        );
+        return $this;
+    }
+    
+    /**
+     * storeVisitIfUnique - records the visit if it is unuiqe.
+     * @param ThreadInterface $thread
+     * @return \EdpDiscuss\Service\Discuss
+     */
+    public function storeVisitIfUnique(VisitInterface $visit)
+    {
+        $this->getVisitMapper()->storeVisitIfUnique($visit);
         return $this;
     }
 }

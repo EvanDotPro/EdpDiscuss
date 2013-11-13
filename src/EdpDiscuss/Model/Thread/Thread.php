@@ -2,9 +2,10 @@
 
 namespace EdpDiscuss\Model\Thread;
 
-use ZfcBase\Model\ModelAbstract,
-    BaconStringUtils\Slugifier,
-    EdpDiscuss\Model\Message\MessageInterface;
+use ZfcBase\Model\ModelAbstract;
+use BaconStringUtils\Slugifier;
+use EdpDiscuss\Model\Message\MessageInterface;
+use DateTime;
 
 class Thread implements ThreadInterface
 {
@@ -38,6 +39,21 @@ class Thread implements ThreadInterface
      */
     protected $slugifier;
 
+    /**
+     * @var integer
+     */
+    protected $messageCount;
+    
+    /**
+     * @var integer
+     */
+    protected $visitCount;
+    
+    /**
+     * @var Date
+     */
+    protected $lastPost;
+    
     /**
      * Get threadId.
      *
@@ -156,5 +172,73 @@ class Thread implements ThreadInterface
     {
         $this->slugifier = $slugifier;
         return $this;
+    }
+    
+    /**
+     * Set Message Count.
+     *
+     * @param integer $messageCount
+     */
+    public function setMessageCount($messageCount)
+    {
+        $this->messageCount = $messageCount;
+        return $this;
+    }
+    
+    /**
+     * Get Message Count.
+     *
+     * @return integer
+     */
+    public function getMessageCount()
+    {
+        return $this->messageCount;
+    }
+    
+    /**
+     * Set View Count
+     * 
+     * Enter description here ...
+     * @param unknown_type $viewCount
+     */
+    public function setVisitCount($viewCount)
+    {
+    	$this->viewCount = $viewCount;
+    	return $this;
+    }
+    
+    /**
+     * Get View Count
+     * 
+     * @return integer
+     */
+    public function getVisitCount()
+    {
+    	return $this->viewCount;
+    }
+    
+    /**
+     * Set Last Post
+     *
+     * @param DateTime $lastPost
+     */
+    public function setLastPost($lastPost)
+    {
+        if ($lastPost instanceof DateTime) {
+            $this->lastPost = $lastPost;
+        } else {
+            $this->lastPost = new DateTime($lastPost);
+        }
+        return $this;
+    }
+    
+    /**
+     * Get Last Post.
+     *
+     * @return Date
+     */
+    public function getLastPost()
+    {
+        return $this->lastPost;
     }
 }
